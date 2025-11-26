@@ -1,0 +1,62 @@
+TRAFFIC SIGNAL CONTROL PROJECT - DEVELOPMENT TIMELINE
+=====================================================
+
+WEEK 1 (August 18-24, 2024)
+============================
+Problem Identification and Initial Research
+------------------------------------------
+This week marked the beginning of our smart traffic signal control project. We identified the core problem: traditional traffic signals operate on fixed timers regardless of actual traffic conditions, leading to inefficient flow, long waiting times, and increased fuel consumption. Our research revealed that adaptive signal control using computer vision could significantly improve traffic management. We began studying existing solutions and identified the need for a real-time vehicle detection system that could dynamically adjust signal timings based on traffic density. Initial literature review showed promising results from AI-based traffic management systems, particularly those using object detection algorithms.
+
+WEEK 2 (August 25-31, 2024)
+============================
+Data Collection and Initial Setup
+---------------------------------
+This week focused on collecting raw traffic data from various intersections. We gathered video footage and images from four different directions (North, South, East, West) of busy intersections during peak and off-peak hours. The data collection included different weather conditions, lighting scenarios, and traffic densities to ensure robust model training. We also set up our development environment with Python, OpenCV, and initial machine learning frameworks. The collected dataset included approximately 200 video clips and 500 images covering various traffic scenarios, vehicle types, and intersection layouts. This diverse dataset would later prove crucial for testing and validating our detection algorithms.
+
+WEEK 3 (September 1-7, 2024)
+============================
+Initial Model Implementation with YOLOv4
+----------------------------------------
+We implemented our first vehicle detection system using YOLOv4, which was considered state-of-the-art at the time. The initial results showed promise with reasonable detection accuracy on our collected dataset. However, we quickly encountered several limitations: YOLOv4 was computationally heavy, requiring significant processing power and showing slower inference times on our development hardware. The model struggled with smaller vehicles and partially occluded objects, which are common in real traffic scenarios. Despite these challenges, YOLOv4 provided a solid foundation for understanding object detection in traffic contexts and helped us refine our data preprocessing pipeline.
+
+WEEK 4 (September 8-14, 2024)
+==============================
+YOLOv4 Limitations and Performance Analysis
+--------------------------------------------
+This week was dedicated to thorough testing and analysis of YOLOv4's performance on our traffic dataset. We discovered significant accuracy issues, particularly with motorcycles, bicycles, and vehicles in heavy traffic conditions where partial occlusion was common. The model's confidence scores were inconsistent, leading to false positives and missed detections. Processing speed was also a major concern, with inference times averaging 150-200ms per frame, making real-time implementation challenging. We documented these limitations and began researching alternative approaches, including newer YOLO variants and other object detection frameworks that might better suit our requirements.
+
+WEEK 5 (September 15-21, 2024)
+===============================
+Transition to YOLOv8 and Initial Testing
+----------------------------------------
+Recognizing YOLOv4's limitations, we made the strategic decision to transition to YOLOv8, which offered significant improvements in both speed and accuracy. YOLOv8's architecture improvements, including better feature extraction and optimized inference, showed promising results in our initial tests. We implemented the new model and observed immediate improvements: faster processing times (reduced to 50-80ms per frame), better detection of small vehicles, and more consistent confidence scores. The transition required updating our codebase and retraining our understanding of the model's parameters, but the improved performance justified the effort.
+
+WEEK 6 (September 22-28, 2024)
+===============================
+YOLOv8 Optimization and Apple MPS Integration
+---------------------------------------------
+This week focused on optimizing YOLOv8 for our specific use case and integrating Apple's Metal Performance Shaders (MPS) for accelerated processing on Apple Silicon. We fine-tuned the model parameters, adjusted confidence thresholds, and implemented MPS acceleration, which reduced inference times to 20-40ms per frame on M1 hardware. The integration with Apple's GPU acceleration proved crucial for achieving real-time performance. We also refined our vehicle detection classes, focusing on car, bus, truck, motorcycle, and bicycle detection, which covered the majority of traffic scenarios in our dataset.
+
+WEEK 7 (September 29 - October 5, 2024)
+=======================================
+Adaptive Signal Control Algorithm Development
+---------------------------------------------
+With YOLOv8 providing reliable vehicle detection, we shifted focus to developing the adaptive signal control algorithm. We implemented a dynamic timing system based on vehicle density: base green time of 15 seconds plus 2 seconds per detected vehicle, constrained between 10-60 seconds for safety and efficiency. The algorithm prioritizes directions with higher traffic density by allocating longer green times. We tested the system with various traffic scenarios and validated that the approach significantly improved traffic flow compared to fixed-time signals. The modular design allowed for easy parameter adjustment and future enhancements.
+
+WEEK 8 (October 6-12, 2024)
+============================
+User Interface Development and System Integration
+-------------------------------------------------
+This week marked the completion of our core system with the development of a user-friendly Streamlit web interface. We created a clean, intuitive interface that allows users to upload four traffic videos (North, South, East, West) and receive immediate analysis including vehicle counts, suggested green times, and priority direction recommendations. The interface eliminates the need for complex settings, using optimized default parameters for maximum usability. We integrated all components - YOLOv8 detection, adaptive control algorithm, and visualization - into a cohesive system that provides real-time traffic analysis and intelligent signal timing recommendations.
+
+CURRENT STATUS (October 2024)
+=============================
+Project Completion and Documentation
+------------------------------------
+The project is now fully functional with a complete end-to-end system that processes traffic videos, detects vehicles using YOLOv8, calculates optimal green times, and presents results through an intuitive web interface. We have successfully transitioned from YOLOv4's limitations to YOLOv8's superior performance, achieving real-time processing capabilities with Apple MPS acceleration. The system demonstrates significant improvements over traditional fixed-time traffic signals, with the ability to adapt to varying traffic conditions and provide data-driven signal timing recommendations. Comprehensive documentation has been created, including technical specifications, methodology explanations, and user guides, making the system ready for potential deployment or further development.
+
+FUTURE ROADMAP
+==============
+While the current system meets our initial objectives, several enhancement opportunities have been identified. These include multi-frame temporal averaging for more stable vehicle counts, emergency vehicle detection and priority handling, weather condition adaptation, and integration with city-wide traffic management systems. The modular architecture ensures that these enhancements can be implemented incrementally without disrupting the core functionality. The project has successfully demonstrated the viability of AI-powered adaptive traffic signal control and provides a solid foundation for future smart city infrastructure development.
+
+=====================================================

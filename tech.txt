@@ -1,0 +1,43 @@
+TECHNICAL QUESTIONS AND ANSWERS
+==============================
+
+Q1: Why did we choose YOLOv8 instead of YOLOv4 or other models?
+--------------------------------------------------------------
+- YOLOv4 required more computational power and struggled in low-light conditions, reducing accuracy.
+- Models like SSD and Faster R-CNN were either too slow or less accurate.
+- YOLOv8 offers faster inference, higher accuracy, and runs efficiently on the M1 chip with Apple MPS acceleration.
+
+Q2: How does the adaptive traffic control logic work?
+----------------------------------------------------
+- For each direction, the system calculates green time using:
+  `green_time = base + (k × vehicle_count)`
+- Base is 15 seconds, k is 2 seconds per vehicle.
+- Green time is constrained between 10 and 60 seconds for safety and fairness.
+- The direction with the highest vehicle count (and thus green time) is prioritized.
+
+Q3: How do we ensure accurate vehicle counting per direction?
+-------------------------------------------------------------
+- Each uploaded video/image represents one direction (North, South, East, West).
+- YOLOv8 detects vehicles and returns bounding boxes and centroids per frame.
+- Counts are derived per direction; no complex tracking is required since each input is direction-specific.
+
+Q4: How is Apple MPS used in this project?
+------------------------------------------
+- Apple Metal Performance Shaders (MPS) allow PyTorch to run YOLOv8 on the M1 GPU.
+- This provides 3–5x faster inference compared to CPU and keeps the system running in near-real time.
+- If MPS isn’t available, the system can still run with `--device cpu`.
+
+Q5: What happens when all directions have high traffic (60s each)?
+-----------------------------------------------------------------
+- Each direction gets the maximum green time (60 seconds), and the priority is assigned based on the highest vehicle count.
+- This ensures that in highly congested scenarios, no direction is starved of green time.
+
+Q6: How do we handle ROI (Region of Interest) in the system?
+-----------------------------------------------------------
+- By default, no ROI is needed since each upload corresponds to a specific direction.
+- Optional ROI support exists for future extension (e.g., multiple lanes in one video), allowing us to count only vehicles in designated polygons.
+
+Q7: How do we log and analyze traffic data over time?
+----------------------------------------------------
+- The system logs each phase to `traffic_log.csv`, including timestamp, lane, vehicle count, and green time.
+- `scripts/plot_results.py` can be used to generate visualizations of vehicle counts vs. assigned green times over time.
