@@ -10,22 +10,8 @@ __pycache__/
 *.so
 .Python
 
-# Model weights (too large for git)
-models/*.pt
-models/*.pth
-models/*.onnx
-
-# Data files
-data/*.mp4
-data/*.avi
-data/*.mov
-*.mp4
-*.avi
-*.mov
-
 # Logs
 *.log
-traffic_log.csv
 
 # IDE
 .vscode/
@@ -40,11 +26,5 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
-east_preview.jpg
-*.jpg
-*.png
-
-# PDFs (reference files)
-*.pdf
 
 
