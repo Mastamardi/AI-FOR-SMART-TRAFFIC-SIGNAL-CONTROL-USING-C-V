@@ -1,0 +1,12 @@
+Frontend / GUI overview
+
+- Entry points: Load `index.html` via http://localhost:8000 (static) or http://localhost:5000 (served by Flask). If opened from 8000, the JS points API calls to the backend on 5000.
+- Primary sections: home, impact, model. The model section hosts the upload and results UI.
+- Upload flow: Four upload cards (North/South/East/West) accept video or image via file picker or drag-and-drop. Selected filenames appear under each card. At least one file is required to process.
+- Process trigger: Button “Process Traffic Analysis” calls `processFiles()` in the inline script. It builds FormData with any selected files using lowercase keys (north/south/east/west).
+- API call: `fetch(${API_BASE}/api/process, { method: 'POST', body: formData })`. `API_BASE` auto-detects: if the page is served from port 8000 it targets http://localhost:5000; otherwise it uses the page origin. Success expects JSON: `vehicle_counts`, `green_times`, `previews` (base64 PNG per direction).
+- Loading/error UX: Button disables, spinner shows. Errors surface via banner “Error processing files: …”. Success shows “Analysis completed successfully!”.
+- Results rendering: `displayResults(data)` builds cards for each direction showing vehicle count, green time, and preview image (if provided). A summary table lists all directions. The priority badge highlights the direction with the highest vehicle count.
+- Visuals: Modern cards, large headers, primary accent color; responsive layout for grid sections. Drag-over styling highlights drop targets.
+- Dependencies: Pure HTML/CSS/JS on the frontend—no build step. Works in a browser with fetch/FormData support.
+
